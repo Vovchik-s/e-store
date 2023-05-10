@@ -1,9 +1,9 @@
-import { useState, useContext } from "react";
+import { useState } from "react"; //deleted useContext, moved the logic to the parent component
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 
-import { UserContext } from "../../context/user.context"; // will give back the any value passed in for the {value} - (user, setUser) of useState
+// import { UserContext } from "../../context/user.context"; // will give back the any value passed in for the {value} - (user, setUser) of useState
 
 import {
     signInWithGooglePopup,
@@ -26,7 +26,7 @@ const SignInForm = () => {
 
     // console.log(formFields)
 
-    const { setCurrentUser } = useContext(UserContext)
+    // const { setCurrentUser } = useContext(UserContext)
 
     const resetFormFields = () => {
         setFormFields(defaultFormFields)
@@ -34,7 +34,7 @@ const SignInForm = () => {
 
     const signInWithGoogle = async () => {
         const { user } = await signInWithGooglePopup();
-        setCurrentUser(user);
+        // setCurrentUser(user);
         await createUserDocumentFromAuth(user);
     };  // Google button added
 
@@ -47,7 +47,7 @@ const SignInForm = () => {
                 password
             )
             resetFormFields();
-            setCurrentUser(user);
+            // setCurrentUser(user);
         } catch (error) {
             if (error.code === "auth/wrong-password") {
                 alert("Wrong password")

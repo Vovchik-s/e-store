@@ -5,23 +5,25 @@ import { ReactComponent as CrwnLogo } from '../../assets/logo-ai.svg';
 
 import { UserContext } from '../../context/user.context';
 
+import { signOutUser } from '../../utils/firebase/firebase.utils';
+
 // Fragment is used to wrap multiple elements without adding a div
 
 // Link cmponent create a link to the path specified place in the 'to' prop. In the browser replaced by <a> tag.
 
 // ReactComponent creates React component that renders an SVG, rather than its filename.
 
-import { signOutUser } from '../../utils/firebase/firebase.utils';
+
 
 import './navigation.styles.scss';
 
 const Navigation = () => {
-    const { currentUser, setCurrentUser } = useContext(UserContext);
+    const { currentUser } = useContext(UserContext); // Removed setCurrentUser (All operations in user.context)
 
-    const signOutHandler = async() => {
-        const resp = await signOutUser();
-        setCurrentUser(null);
-    }
+    // const signOutHandler = async() => {
+    //     await signOutUser();
+    //     setCurrentUser(null);
+    // }
 
     // console.log(currentUser)
     return (
@@ -36,7 +38,7 @@ const Navigation = () => {
                     </Link>
                     {
                         currentUser ?
-                            (<span className='nav-link' onClick={signOutHandler}>SIGN OUT</span>)
+                            (<span className='nav-link' onClick={signOutUser}>SIGN OUT</span>)
                             : (<Link className='nav-link' to='/auth'>SIGN IN</Link>)
                     }
                 </div>

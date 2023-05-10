@@ -1,6 +1,6 @@
-import { useState, useContext } from "react";
+import { useState } from "react"; //deleted useContext, moved the logic to the parent component
 
-import { UserContext } from "../../context/user.context"; 
+// import { UserContext } from "../../context/user.context"; 
 
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
@@ -26,7 +26,7 @@ const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email, password, confirmPassword } = formFields;
 
-    const { setCurrentUser } = useContext(UserContext)
+    // const { setCurrentUser } = useContext(UserContext)
 
     // console.log(formFields)
 
@@ -52,7 +52,7 @@ const SignUpForm = () => {
             
             // Now when sign up we get { user } object that after we can pass to document that we trying to generate (createUserDocumentFromAuth)
 
-            setCurrentUser(user); // whenever sign up we setting the current user in context 
+            // setCurrentUser(user); // whenever sign up we setting the current user in context 
 
             await createUserDocumentFromAuth(user, { displayName })
             resetFormFields();

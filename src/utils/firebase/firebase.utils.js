@@ -7,6 +7,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
+    onAuthStateChanged // This is a function that takes in the auth object (Sign out or sign in) and a callback function and returns a function that we can use to unsubscribe from the listener
 
 } from 'firebase/auth';
 
@@ -35,7 +36,7 @@ const firebaseConfig = {
 
     measurementId: "G-WNHM5FSG3P"
 
-};  
+};
 
 
 ////// Initialize Firebase
@@ -63,10 +64,10 @@ export const db = getFirestore(); // getFirestore is a function that returns the
 export const createUserDocumentFromAuth = async (
     userAuth,
     additionalInformation = {}
-    ) => {
+) => {
 
     if (!userAuth) return;
-    
+
     const userRef = doc(db, 'users', userAuth.uid);
     // doc is a function that takes in the firestore object and the collection name and the document id and returns a document reference
 
@@ -85,7 +86,7 @@ export const createUserDocumentFromAuth = async (
 
         try {
             // setDoc is a function that takes in the document reference and the object that we want to set and returns a promise
-            await setDoc(userRef, { 
+            await setDoc(userRef, {
                 displayName,
                 email,
                 createdAt,
@@ -103,8 +104,8 @@ export const createUserDocumentFromAuth = async (
 
 // This utility file is used to initialize firebase and export the auth and firestore objects from the firebase library
 // Its basically a layer in between my frontend and the firebase library
-export const createAuthUserWithEmailAndPassword = async (email,password) => {
-    if(!email || !password) return;
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
 
     return createUserWithEmailAndPassword(auth, email, password);
 
@@ -112,8 +113,8 @@ export const createAuthUserWithEmailAndPassword = async (email,password) => {
     // 2. create user with email and password
 }
 
-export const signInAuthUserWithEmailAndPassword = async (email,password) => {
-    if(!email || !password) return;
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
 
     return signInWithEmailAndPassword(auth, email, password);
 
@@ -122,3 +123,17 @@ export const signInAuthUserWithEmailAndPassword = async (email,password) => {
 }
 
 export const signOutUser = () => signOut(auth)
+
+export const onAuthStateChangedListener = (callback) => {
+    onAuthStateChanged(auth, callback)
+}  
+// onAuthStateChanged takes in the auth object as first argument and a callback function as second argument that you want to call every time this auth state changes and returns a function that we can use to unsubscribe from the listener
+
+/**
+ * observer pattern
+ * {
+ * next: callback,
+ * error: errorCallback,
+ * complete: completeCallback
+ * }
+ */
